@@ -17,7 +17,7 @@ import java.sql.Connection;
 public class RoomServlet extends HttpServlet {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class RoomServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(req, resp);
+		// doGet(req, resp);
 	}
 
 	@Override
@@ -59,24 +59,43 @@ public class RoomServlet extends HttpServlet {
 			liveTitle = "";
 		}
 
+		// jdbc:mysql://localhost:3306/mc_userdb
 		// 獲取到参数之后 保存到服务器mysql里面
 		// String url = driverName + Host + ":" + Port + "/" + dbName;
 		String driverName = "jdbc:mysql://";
 		String host = "192.168.1.89";
-		String port = "30351";
-		String dbName = "dd8bca5e";
+		// String host = "192.168.0.1";
+		String port = "30351"; // 30351
+		String dbName = "dd8bca5e";// dd8bca5e
 		final String charset = "?useUnicode=true&charactsetEncoding=utf-8";
 
 		String url = driverName + host + ":" + port + "/" + dbName + charset;
-		String user = "7f79db3a";
-		String password = "8477deb8";
+		String user = "7f79db3a"; // 7f79db3a
+		String password = "8477deb8"; // 8477deb8
+		Connection dbConn = null;
+		Statement stm = null;
+
+		String driverUrl = "jdbc:mysql://localhost:3306/CN_LIVE?"
+				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
+
 		try {
-			Connection dbConn = DriverManager.getConnection(url, user, password);
-			Statement stm = dbConn.createStatement();
+			
+			//判断是否是本地测试环境  如果是本地测试环境 那么就连接本地的数据库  进行相关测试   
+			if (LocalOrRemoteTag.isLocal) {
+				Class.forName("com.mysql.jdbc.Driver");// 动态加载mysql驱动
+				dbConn = DriverManager.getConnection(driverUrl);
+				
+			} else {
+				//如果是上线环境  那么久需要使用线上的环境  进行打war包
+				dbConn = DriverManager.getConnection(url, user, password);
+				
+			}
+
+			stm = dbConn.createStatement();
 			String sqlStr = "INSERT INTO `roominfo`(`room_id`, `user_id`, `user_avatar`,"
 					+ " `live_cover`, `live_title`, `wather_num`, `user_name`) " + "VALUES (" + "0," + "\"" + userId
 					+ "\"" + "," + "\"" + userAvatar + "\"" + "," + "\"" + liveCover + "\"" + "," + "\"" + liveTitle
-					+ "\"" + ","  + 0 + "," + "\"" + userName + "\"" + ")";
+					+ "\"" + "," + 0 + "," + "\"" + userName + "\"" + ")";
 			System.out.println(sqlStr);
 			stm.execute(sqlStr);
 			int updateCount = stm.getUpdateCount();
@@ -94,14 +113,30 @@ public class RoomServlet extends HttpServlet {
 
 					// 获取到room_id 发送结果
 
-					PrintWriter writer = resp.getWriter();
-					writer.println("得到的房间id是:" + roomId);
+					ResponseObj.send(resp, ResponseObj.getSuccess(roomId));
+					// writer.println("得到的房间id是:" + roomId);
 
 				}
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+
+			ResponseObj.send(resp, ResponseObj.getError(Error.ERROR_CODE_EXCEPTION, e.getMessage()));
+
+		} finally {
+
+			try {
+
+				if (dbConn != null) {
+
+					dbConn.close();
+				}
+
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
