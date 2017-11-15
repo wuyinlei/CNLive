@@ -1,4 +1,4 @@
-package com.ruolan.living;
+package com.ruolan.living.tag;
 
 public class LocalOrRemoteTag {
 

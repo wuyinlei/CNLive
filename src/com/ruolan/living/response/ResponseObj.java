@@ -1,9 +1,8 @@
-package com.ruolan.living;
+package com.ruolan.living.response;
 
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class ResponseObj {
