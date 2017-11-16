@@ -1,28 +1,21 @@
 package com.ruolan.living.action;
 
 import com.ruolan.living.model.RoomInfo;
-import com.ruolan.living.response.Error;
 import com.ruolan.living.response.ResponseObj;
 import com.ruolan.living.sqlutils.SqlManager;
 import com.ruolan.living.tag.LocalOrRemoteTag;
+import com.ruolan.living.response.Error;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-public class RoomServlet extends HttpServlet {
+public class CreateRoomAction {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
 
     private static final String Param_User_id = "userId";
     private static final String Param_User_avatar = "userAvatar";
@@ -30,14 +23,8 @@ public class RoomServlet extends HttpServlet {
     private static final String Param_Live_cover = "liveCover";
     private static final String Param_Live_title = "liveTitle";
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        // doGet(req, resp);
-    }
+    public void doAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String userId = req.getParameter(Param_User_id);
         if (userId == null) {
@@ -104,7 +91,7 @@ public class RoomServlet extends HttpServlet {
             int updateCount = stm.getUpdateCount();
             if (updateCount > 0) {
                 // 执行成功
-                String sqlRoomStr = "SELECT * FROM `roominfo` WHERE `user_id` =" + "'"+userId+"'";
+                String sqlRoomStr = "SELECT * FROM `roominfo` WHERE `user_id` =" + "'" + userId + "'";
                 System.out.println(sqlRoomStr);
                 stm.execute(sqlRoomStr);
                 ResultSet resultSet = stm.getResultSet();
@@ -147,7 +134,6 @@ public class RoomServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
     }
 
 }
