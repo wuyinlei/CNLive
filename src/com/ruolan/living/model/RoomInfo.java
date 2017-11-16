@@ -3,7 +3,7 @@ package com.ruolan.living.model;
 public class RoomInfo {
 
     private int roomid;
-    private int userId;
+    private String userId;
     private String userAvatar;
     private String userName;
     private String liveCover;
@@ -18,11 +18,11 @@ public class RoomInfo {
         this.roomid = roomid;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

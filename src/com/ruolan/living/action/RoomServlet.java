@@ -31,35 +31,35 @@ public class RoomServlet extends HttpServlet {
     private static final String Param_Live_title = "liveTitle";
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
         // doGet(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String userId = req.getParameter(Param_User_id);
         if (userId == null) {
-            userId = "";
+            userId = "100";
         }
 
         String userAvatar = req.getParameter(Param_User_avatar);
         if (userAvatar == null) {
-            userAvatar = "";
+            userAvatar = "121212";
         }
         String userName = req.getParameter(Param_User_name);
         if (userName == null) {
-            userName = "";
+            userName = "1213";
         }
         String liveCover = req.getParameter(Param_Live_cover);
         if (liveCover == null) {
-            liveCover = "";
+            liveCover = "312343";
         }
 
         String liveTitle = req.getParameter(Param_Live_title);
         if (liveTitle == null) {
-            liveTitle = "";
+            liveTitle = "21213";
         }
 
         // jdbc:mysql://localhost:3306/mc_userdb
@@ -104,7 +104,7 @@ public class RoomServlet extends HttpServlet {
             int updateCount = stm.getUpdateCount();
             if (updateCount > 0) {
                 // 执行成功
-                String sqlRoomStr = "SELECT * FROM `roominfo` WHERE `user_id` =" + userId;
+                String sqlRoomStr = "SELECT * FROM `roominfo` WHERE `user_id` =" + "'"+userId+"'";
                 System.out.println(sqlRoomStr);
                 stm.execute(sqlRoomStr);
                 ResultSet resultSet = stm.getResultSet();
@@ -113,7 +113,7 @@ public class RoomServlet extends HttpServlet {
                     RoomInfo roomInfo = new RoomInfo();
                     while (resultSet.next()) {
                         roomInfo.setRoomid(resultSet.getInt("room_id"));
-                        roomInfo.setUserId(resultSet.getInt("user_id"));
+                        roomInfo.setUserId(resultSet.getString("user_id"));
                         roomInfo.setUserName(resultSet.getString("user_name"));
                         roomInfo.setLiveCover(resultSet.getString("live_cover"));
                         roomInfo.setLiveTitle(resultSet.getString("live_title"));
