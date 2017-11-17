@@ -2,7 +2,7 @@ package com.ruolan.living.model;
 
 public class RoomInfo {
 
-    private int roomid;
+    private int roomId;
     private String userId;
     private String userAvatar;
     private String userName;
@@ -10,12 +10,12 @@ public class RoomInfo {
     private String liveTitle;
     private int watcherNum;
 
-    public int getRoomid() {
-        return roomid;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setRoomid(int roomid) {
-        this.roomid = roomid;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
     public String getUserId() {

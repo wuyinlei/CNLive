@@ -1,6 +1,7 @@
 package com.ruolan.living;
 
 import com.ruolan.living.action.CreateRoomAction;
+import com.ruolan.living.action.LiveListAction;
 import com.ruolan.living.model.RoomInfo;
 import com.ruolan.living.response.Error;
 import com.ruolan.living.response.ResponseObj;
@@ -28,10 +29,11 @@ public class RoomServlet extends HttpServlet {
 
     private static final String RequestParamKey_Action = "action";
     private static final String RequestAction_Create = "create";
+    private static final String RequestAction_Live_List = "liveList";
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        // doGet(req, resp);
+         doGet(req, resp);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class RoomServlet extends HttpServlet {
         if (action == null || "".equals(action)) {
             ResponseObj responseObject = ResponseObj.getError(
                     Error.ERROR_CODE_EXCEPTION, Error.getErrorMsgException(Error.ERROR_CODE_EXCEPTION));
-            responseObject.send(resp, responseObject);
+            ResponseObj.send(resp, responseObject);
             return;
         }
 
@@ -50,13 +52,16 @@ public class RoomServlet extends HttpServlet {
             if (RequestAction_Create.equals(action)) {
                 //创建直播房间的action
                 new CreateRoomAction().doAction(req, resp);
-            }
+            } else if (RequestAction_Live_List.equals(action)) {
+				//获取直播列表的action
+            	new LiveListAction().doAction(req,resp);
+			}
         } catch (SQLException | IOException e) {
             e.printStackTrace();
             ResponseObj responseObject = ResponseObj.getError(
                     Error.ERROR_CODE_EXCEPTION,
                     Error.getErrorMsgException(e.getMessage()));
-            responseObject.send(resp, null);
+            ResponseObj.send(resp, responseObject);
 
         }
 

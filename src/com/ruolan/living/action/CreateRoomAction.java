@@ -2,6 +2,7 @@ package com.ruolan.living.action;
 
 import com.ruolan.living.model.RoomInfo;
 import com.ruolan.living.response.ResponseObj;
+import com.ruolan.living.response.SqlManagerClose;
 import com.ruolan.living.sqlutils.SqlManager;
 import com.ruolan.living.tag.LocalOrRemoteTag;
 import com.ruolan.living.response.Error;
@@ -14,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CreateRoomAction {
+public class CreateRoomAction implements IAction{
 
 
     private static final String Param_User_id = "userId";
@@ -99,7 +100,7 @@ public class CreateRoomAction {
 //					int roomId = 0;
                     RoomInfo roomInfo = new RoomInfo();
                     while (resultSet.next()) {
-                        roomInfo.setRoomid(resultSet.getInt("room_id"));
+                        roomInfo.setRoomId(resultSet.getInt("room_id"));
                         roomInfo.setUserId(resultSet.getString("user_id"));
                         roomInfo.setUserName(resultSet.getString("user_name"));
                         roomInfo.setLiveCover(resultSet.getString("live_cover"));
@@ -120,19 +121,7 @@ public class CreateRoomAction {
 
         } finally {
 
-            try {
-
-                if (dbConn != null) {
-
-                    dbConn.close();
-                }
-
-                if (stm != null) {
-                    stm.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            SqlManagerClose.resourceClose(dbConn, stm);
         }
     }
 
