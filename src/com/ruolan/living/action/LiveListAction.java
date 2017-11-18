@@ -56,8 +56,9 @@ public class LiveListAction implements IAction {
                 dbConn = SqlManager.getRemoteConnection();
             }
             stm = dbConn.createStatement();
-
-            String sqlStr = "SELECT * FROM `roominfo` LIMIT " + page + ","  + PageSize;
+            
+            //select * from roominfo  order by room_id desc LIMIT 0 , 20 
+            String sqlStr = "SELECT * FROM `roominfo` order by room_id desc LIMIT " + page * PageSize + ","  + PageSize ;
 
             stm.execute(sqlStr);
 
@@ -73,6 +74,7 @@ public class LiveListAction implements IAction {
                     roomInfo.setUserName(resultSet.getString("user_name"));
                     roomInfo.setLiveCover(resultSet.getString("live_cover"));
                     roomInfo.setLiveTitle(resultSet.getString("live_title"));
+                    roomInfo.setUserAvatar(resultSet.getString("user_avatar"));
                     roomInfo.setWatcherNum(resultSet.getInt("wather_num"));
 
                     roomInfos.add(roomInfo);
