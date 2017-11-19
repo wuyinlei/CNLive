@@ -105,6 +105,7 @@ public class CreateRoomAction implements IAction{
                         roomInfo.setUserName(resultSet.getString("user_name"));
                         roomInfo.setLiveCover(resultSet.getString("live_cover"));
                         roomInfo.setLiveTitle(resultSet.getString("live_title"));
+                        roomInfo.setUserAvatar(resultSet.getString("user_avatar"));
                         roomInfo.setWatcherNum(resultSet.getInt("wather_num"));
                     }
 

@@ -10,5 +10,7 @@ public interface IAction {
 	
 	
 public void doAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException;
+
+    ;
 	
 }
