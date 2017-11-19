@@ -2,17 +2,17 @@ package com.ruolan.living.model;
 
 public class UserInfo {
 
-    private int userId;
+    private String userId;
     private int userLevel;
     private int sendNums;
     private int getNums;
     private int exp;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

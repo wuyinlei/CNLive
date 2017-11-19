@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class UserServlet extends HttpServlet {
 
-    private static final String RequestParamKey_Action = "action";
     private static final String RequestAction_Is_Send = "isSend";
 
     @Override
@@ -22,14 +21,6 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter(RequestParamKey_Action);
-
-        if (action == null || "".equals(action)) {
-            ResponseObj responseObject = ResponseObj.getError(
-                    Error.ERROR_CODE_EXCEPTION, Error.getErrorMsgException(Error.ERROR_CODE_EXCEPTION));
-            ResponseObj.send(resp, responseObject);
-            return;
-        }
 
         String extra =  req.getParameter(RequestAction_Is_Send);
 

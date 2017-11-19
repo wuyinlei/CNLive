@@ -45,7 +45,8 @@ public class SendOrGetGiftAction {
             exp = Integer.valueOf(req.getParameter(Param_Gift_Exp));
 
         } catch (Exception e) {
-
+        	exp = 0;
+        	System.err.println(e.getMessage());
         }
 
         if (exp < 0) {
@@ -144,19 +145,26 @@ public class SendOrGetGiftAction {
                     dbGetNum++;
                     dbLevel = dbExp / 200 + 1;
                 }
-
-
                 //更新数据库
-                String updateSql = "UPDATE `userinfo` SET `user_level` = " + dbLevel + ",`send_nums` = " + dbSendNum
-                        + ",`exp` = " + dbExp + " WHERE `user_id` = \"" + userId + "\"";
+                String updateSql;
 
+                if (isSend){
+                    updateSql    = "UPDATE `userinfo` SET `user_level` = " + dbLevel + ",`send_nums` = " + dbSendNum
+                            + ",`exp` = " + dbExp + ",`get_nums` = " + dbGetNum + " WHERE `user_id` = \"" + userId + "\"";
+
+
+                } else {
+                    updateSql    = "UPDATE `userinfo` SET `user_level` = " + dbLevel
+                            + ",`exp` = " + dbExp + ",`get_nums` = " + dbGetNum + " WHERE `user_id` = \"" + userId + "\"";
+
+                }
 
                 stm.execute(updateSql);
                 int updateCount = stm.getUpdateCount();
                 if (updateCount > 0) {
                     //更新成功
                     userInfo = new UserInfo();
-                    userInfo.setUserId(Integer.parseInt(userId));
+                    userInfo.setUserId(userId);
                     userInfo.setExp(dbExp);
                     userInfo.setGetNums(dbGetNum);
                     userInfo.setSendNums(dbSendNum);
